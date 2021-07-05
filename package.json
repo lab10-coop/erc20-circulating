@@ -1,0 +1,19 @@
+{
+  "name": "erc20-circulating",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Peter Grassberger <peter.grassberger@lab10.coop> (https://petergrassberger.com/)",
+  "license": "AGPL-3.0-or-later",
+  "dependencies": {
+    "bn.js": "^4.12.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "keccak256": "^1.0.3",
+    "node-fetch": "^2.6.1"
+  }
+}
