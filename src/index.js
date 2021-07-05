@@ -41,10 +41,9 @@ async function ethCall(contract, func, params = '') {
 }
 
 app.get('/', (req, res) => {
-  res.set('content-type', 'text/plain');
   res.send(
     'Hello World! Check out <a href="/circulating">/circulating</a>'
-    + (isSupertoken ? ' and <a href="/streaming-rate-to-circulating-per-year">/streaming-rate-to-circulating-per-year</a>' : '')
+    + (isSupertoken ? ' and <a href="/netflow-of-locked-per-year">/netflow-of-locked-per-year</a>' : '')
     +'.'
   );
 });
@@ -81,7 +80,7 @@ app.get('/circulating', async (req, res) => {
 });
 
 if (isSupertoken) {
-  app.get('/streaming-rate-to-circulating-per-year', async (req, res) => {
+  app.get('/netflow-of-locked-per-year', async (req, res) => {
     // get decimals
     const decimalsResp = await ethCall(tokenContract, 'decimals()', '');
     const decimals = parseInt(decimalsResp, 16);
@@ -104,7 +103,7 @@ if (isSupertoken) {
           netFlowResp,
           (60 * 60 * 24 * 365) * parseInt(netFlowBn.xor(nrMaxBN).toString(), 10) / Math.pow(10, decimals)
         );
-        return parseInt(netFlowBn.xor(nrMaxBN).toString(), 10);
+        return parseInt(netFlowBn.xor(nrMaxBN).neg().toString(), 10);
       }
       console.log(
         `netFlowResp(-,${addr})`,
@@ -116,7 +115,7 @@ if (isSupertoken) {
     //console.log(netFlows);
 
     const netFlowsSum = netFlows.reduce((acc, curr) => acc + curr);
-    console.log('netFlowsSum', netFlowsSum / Math.pow(10, decimals));
+    console.log('netFlowsSum', (60 * 60 * 24 * 365) * netFlowsSum / Math.pow(10, decimals));
 
     res.set('content-type', 'text/plain');
     res.send(`${(60 * 60 * 24 * 365) * netFlowsSum / Math.pow(10, decimals)}`);

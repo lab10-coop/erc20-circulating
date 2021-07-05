@@ -2,7 +2,7 @@ erc20-circulating
 =================
 
 is a service that shows circulating balance under `/circulating`
-and streaming rate to circulation in `/streaming-rate-to-circulating-per-year`.
+and streaming rate to circulation in `/netflow-of-locked-per-year`.
 
 run
 ---
