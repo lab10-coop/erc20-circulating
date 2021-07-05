@@ -101,7 +101,7 @@ if (isSupertoken) {
         console.log(
           `netFlowResp(-,${addr})`,
           netFlowResp,
-          (60 * 60 * 24 * 365) * parseInt(netFlowBn.xor(nrMaxBN).toString(), 10) / Math.pow(10, decimals)
+          (60 * 60 * 24 * 365) * parseInt(netFlowBn.xor(nrMaxBN).neg().toString(), 10) / Math.pow(10, decimals)
         );
         return parseInt(netFlowBn.xor(nrMaxBN).neg().toString(), 10);
       }
