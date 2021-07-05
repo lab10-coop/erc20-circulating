@@ -41,6 +41,7 @@ async function ethCall(contract, func, params = '') {
 }
 
 app.get('/', (req, res) => {
+  res.set('content-type', 'text/plain');
   res.send(
     'Hello World! Check out <a href="/circulating">/circulating</a>'
     + (isSupertoken ? ' and <a href="/streaming-rate-to-circulating-per-year">/streaming-rate-to-circulating-per-year</a>' : '')
@@ -75,6 +76,7 @@ app.get('/circulating', async (req, res) => {
   const circulating = totalSupply - balancesSum;
   console.log('circulating', circulating / Math.pow(10, decimals));
 
+  res.set('content-type', 'text/plain');
   res.send(`${circulating / Math.pow(10, decimals)}`);
 });
 
@@ -116,6 +118,7 @@ if (isSupertoken) {
     const netFlowsSum = netFlows.reduce((acc, curr) => acc + curr);
     console.log('netFlowsSum', netFlowsSum / Math.pow(10, decimals));
 
+    res.set('content-type', 'text/plain');
     res.send(`${(60 * 60 * 24 * 365) * netFlowsSum / Math.pow(10, decimals)}`);
   });
 }
