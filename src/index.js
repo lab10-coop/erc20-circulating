@@ -14,7 +14,7 @@ const isSupertoken = process.env.IS_SUPERTOKEN === 'true' || false;
 
 const app = express();
 
-async function ethCall(contract, func, params) {
+async function ethCall(contract, func, params = '') {
   const funcSelector = keccak256(func).toString('hex').substr(0, 8);
   const data = {
     method: 'eth_call',
@@ -37,16 +37,18 @@ async function ethCall(contract, func, params) {
     body: JSON.stringify(data)
   });
   const respJson = await resp.json();
-  //console.log(data, respJson);
   return respJson.result;
 }
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send(
+    'Hello World! Check out <a href="/circulating">/circulating</a>'
+    + (isSupertoken ? ' and <a href="/streaming-rate-to-circulating-per-year">/streaming-rate-to-circulating-per-year</a>' : '')
+    +'.'
+  );
 });
 
 app.get('/circulating', async (req, res) => {
-  console.log(rpc, tokenContract, lockedAddrs, isSupertoken);
 
   // get decimals
   const decimalsResp = await ethCall(tokenContract, 'decimals()', '');
@@ -65,7 +67,7 @@ app.get('/circulating', async (req, res) => {
     console.log(`balanceOf(${addr})`, balance / Math.pow(10, decimals));
     return balance;
   }));
-  console.log(balances);
+  //console.log(balances);
 
   const balancesSum = balances.reduce((acc, curr) => acc + curr);
   console.log('balancesSum', balancesSum / Math.pow(10, decimals));
@@ -109,7 +111,7 @@ if (isSupertoken) {
       );
       return parseInt(netFlowBn.toString(), 10);
     }));
-    console.log(netFlows);
+    //console.log(netFlows);
 
     const netFlowsSum = netFlows.reduce((acc, curr) => acc + curr);
     console.log('netFlowsSum', netFlowsSum / Math.pow(10, decimals));
@@ -119,5 +121,6 @@ if (isSupertoken) {
 }
 
 app.listen(port, () => {
+  console.log(rpc, tokenContract, lockedAddrs, isSupertoken);
   console.log(`Listening at http://localhost:${port}`)
 });
