@@ -21,7 +21,7 @@ async function ethCall(contract, func, params = '') {
     params: [
       {
         to: contract,
-        data: '0x' + funcSelector + '000000000000000000000000' + params.replaceAll('0x', '')
+        data: '0x' + funcSelector + '000000000000000000000000' + params.replace(/0x/g, '')
       }
     ],
     id: 1,
@@ -95,7 +95,7 @@ if (isSupertoken) {
       //todo: put '0xEbdA4ceF883A7B12c4E669Ebc58927FBa8447C7D' in env...
       const netFlowResp = await ethCall('0xEbdA4ceF883A7B12c4E669Ebc58927FBa8447C7D', 'getNetFlow(address,address)', tokenContract + '000000000000000000000000' + addr);
 
-      const netFlowBn = new BN(netFlowResp.replaceAll('0x', ''), 16);
+      const netFlowBn = new BN(netFlowResp.replace(/0x/g, ''), 16);
       // todo: check if this is correct
       if (netFlowBn.gte(nrHalfBN)) {
         console.log(
