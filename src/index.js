@@ -122,7 +122,7 @@ if (isSupertoken) {
   });
 }
 
-app.listen(port, () => {
+app.listen(port, 'localhost', () => {
   console.log(rpc, tokenContract, lockedAddrs, isSupertoken);
   console.log(`Listening at http://localhost:${port}`)
 });
