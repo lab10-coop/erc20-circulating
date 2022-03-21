@@ -22,7 +22,8 @@ async function ethCall(contract, func, params = '') {
       {
         to: contract,
         data: '0x' + funcSelector + '000000000000000000000000' + params.replace(/0x/g, '')
-      }
+      },
+      'latest'
     ],
     id: 1,
     jsonrpc: '2.0'
