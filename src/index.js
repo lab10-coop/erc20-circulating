@@ -70,7 +70,7 @@ app.get('/circulating', async (req, res) => {
   }));
   //console.log(balances);
 
-  const balancesSum = balances.reduce((acc, curr) => acc + curr);
+  const balancesSum = balances.length === 0 ? 0 : balances.reduce((acc, curr) => acc + curr);
   console.log('balancesSum', balancesSum / Math.pow(10, decimals));
 
   const circulating = totalSupply - balancesSum;
